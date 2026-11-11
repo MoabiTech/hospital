@@ -1,0 +1,73 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function isDoctor() {
+      return signedIn()
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'doctor';
+    }
+
+    match /users/{userId} {
+      allow get: if signedIn()
+        && (request.auth.uid == userId || isAdmin() || resource.data.role == 'doctor');
+      allow list: if isAdmin() || (signedIn() && resource.data.role == 'doctor');
+      allow create: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.role == 'patient'
+        && request.resource.data.email == request.auth.token.email;
+      allow update: if isAdmin()
+        || (signedIn()
+          && request.auth.uid == userId
+          && request.resource.data.role == resource.data.role
+          && request.resource.data.specialty == resource.data.specialty
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'email', 'updatedAt']));
+      allow delete: if isAdmin();
+    }
+
+    match /appointments/{appointmentId} {
+      allow read: if signedIn()
+        && (isAdmin()
+          || resource.data.patientId == request.auth.uid
+          || resource.data.doctorId == request.auth.uid);
+      allow create: if signedIn()
+        && request.resource.data.patientId == request.auth.uid
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'patient'
+        && get(/databases/$(database)/documents/users/$(request.resource.data.doctorId)).data.role == 'doctor'
+        && request.resource.data.patientName == get(/databases/$(database)/documents/users/$(request.auth.uid)).data.name
+        && request.resource.data.doctorName == get(/databases/$(database)/documents/users/$(request.resource.data.doctorId)).data.name
+        && request.resource.data.status == 'Confirmed'
+        && request.resource.data.keys().hasOnly([
+          'id', 'patientId', 'doctorId', 'patientName', 'doctorName', 'date', 'time',
+          'durationMinutes', 'reason', 'notes', 'status', 'createdAt',
+          'reminderPatientSent', 'reminderDoctorSent'
+        ]);
+      allow update: if isAdmin()
+        || (signedIn()
+          && resource.data.patientId == request.auth.uid
+          && request.resource.data.patientId == resource.data.patientId
+          && request.resource.data.doctorId == resource.data.doctorId
+          && request.resource.data.patientName == resource.data.patientName
+          && request.resource.data.doctorName == resource.data.doctorName
+          && request.resource.data.status in ['Confirmed', 'Cancelled']
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'date', 'time', 'durationMinutes', 'reason', 'notes', 'status',
+            'reminderPatientSent', 'reminderDoctorSent'
+          ]))
+        || (isDoctor()
+          && resource.data.doctorId == request.auth.uid
+          && request.resource.data.patientId == resource.data.patientId
+          && request.resource.data.doctorId == resource.data.doctorId
+          && request.resource.data.status in ['Confirmed', 'Completed', 'Cancelled']
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status']));
+      allow delete: if isAdmin();
+    }
+  }
+}

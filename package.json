@@ -1,0 +1,16 @@
+{
+  "name": "carepoint-appointment-reminders",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local web server for the CarePoint appointment booking prototype",
+  "scripts": {
+    "start": "node server.js",
+    "bootstrap:admin": "node scripts/bootstrap-admin.js"
+  },
+  "devDependencies": {
+    "firebase-admin": "^13.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

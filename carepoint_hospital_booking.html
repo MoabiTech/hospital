@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CarePoint | Hospital Appointment Booking</title>
+<style>
+:root{--navy:#12304a;--blue:#176b87;--teal:#0f9b8e;--pale:#eef7f8;--ink:#183247;--muted:#647789;--line:#dce7ec;--white:#fff;--red:#b42318;--amber:#a15c00;--green:#16794b;--shadow:0 12px 35px rgba(18,48,74,.08)}
+*{box-sizing:border-box}body{margin:0;background:#f5f8fa;color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.app{min-height:100vh}.topbar{background:var(--navy);color:white;padding:15px clamp(16px,4vw,48px);display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}.brand{display:flex;gap:11px;align-items:center;font-weight:800;font-size:20px;letter-spacing:-.3px}.brand-mark{background:var(--teal);width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:22px}.top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.top-actions span{font-size:13px;color:#d5e7ef}.container{max-width:1200px;margin:0 auto;padding:28px 20px 50px}.hero{background:linear-gradient(115deg,#12304a,#176b87);color:white;padding:clamp(22px,4vw,38px);border-radius:22px;display:flex;align-items:center;justify-content:space-between;gap:25px;box-shadow:var(--shadow);margin-bottom:24px}.hero h1{font-size:clamp(26px,4vw,38px);line-height:1.13;margin:0 0 10px;letter-spacing:-1px}.hero p{max-width:620px;color:#e0f0f4;margin:0}.hero-icon{font-size:76px;opacity:.9}.layout{display:grid;grid-template-columns:235px minmax(0,1fr);gap:22px}.sidebar,.panel,.card{background:white;border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow)}.sidebar{padding:14px;height:max-content;position:sticky;top:14px}.nav-btn{border:0;background:transparent;color:var(--muted);width:100%;text-align:left;padding:12px;border-radius:10px;margin:2px 0;display:flex;align-items:center;gap:10px}.nav-btn:hover,.nav-btn.active{background:var(--pale);color:var(--blue);font-weight:700}.content{min-width:0}.section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:18px}.section-head h2{margin:0;font-size:25px;letter-spacing:-.5px}.section-head p{margin:5px 0 0;color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:20px}.stat{padding:18px;background:white;border:1px solid var(--line);border-radius:15px}.stat .label{color:var(--muted);font-size:13px}.stat .number{font-size:29px;font-weight:800;margin-top:5px}.panel{padding:22px;margin-bottom:18px}.panel h3{margin:0 0 15px;font-size:18px}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field label{font-weight:650;font-size:13px}.field input,.field select,.field textarea,.searchbox{width:100%;padding:11px 12px;border:1px solid #cbd9e0;border-radius:10px;background:white;color:var(--ink);outline:none}.field input:focus,.field select:focus,.field textarea:focus,.searchbox:focus{border-color:var(--blue);box-shadow:0 0 0 3px #176b8718}.field textarea{min-height:90px;resize:vertical}.btn{border:0;border-radius:10px;padding:10px 15px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:transform .12s,opacity .12s}.btn:active{transform:scale(.98)}.primary{background:var(--blue);color:white}.teal{background:var(--teal);color:white}.secondary{background:#eaf2f5;color:var(--navy)}.danger{background:#fff0ee;color:var(--red)}.small{font-size:12px;padding:7px 10px}.btn:disabled{opacity:.5;cursor:not-allowed}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.muted{color:var(--muted)}.small-note{font-size:12px;color:var(--muted)}.notice{padding:12px 14px;border-radius:11px;background:#eef7ff;border:1px solid #cfe5f8;color:#214d6b;margin:12px 0}.warning{background:#fff8e8;border-color:#f1dfac;color:#704a00}.success{background:#eaf8f0;border-color:#bce6cc;color:#17613a}.danger-note{background:#fff0ee;border-color:#f2c7c1;color:#8f2119}.badge{display:inline-flex;align-items:center;border-radius:100px;padding:4px 9px;font-size:12px;font-weight:750;background:#edf2f5;color:#4b6070}.badge.confirmed,.badge.active{background:#e7f7ed;color:#16794b}.badge.pending{background:#fff4d9;color:#8a5a00}.badge.cancelled{background:#ffeded;color:#a32620}.badge.completed{background:#e9f2ff;color:#205ca0}.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}table{border-collapse:collapse;width:100%;min-width:650px;background:white}th,td{padding:12px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f4f8fa;color:#526a7b;font-size:12px;text-transform:uppercase;letter-spacing:.04em}tr:last-child td{border-bottom:0}.empty{padding:28px;text-align:center;color:var(--muted)}.doctor-card{border:1px solid var(--line);border-radius:14px;padding:17px;display:flex;flex-direction:column;gap:10px}.doctor-top{display:flex;gap:12px;align-items:center}.avatar{width:44px;height:44px;border-radius:14px;background:#e6f5f5;color:var(--blue);display:grid;place-items:center;font-size:21px;font-weight:800;flex-shrink:0}.doctor-card h3{margin:0;font-size:16px}.doctor-card p{margin:0;color:var(--muted);font-size:13px}.pill{border:1px solid #cde3e8;border-radius:100px;padding:4px 9px;color:var(--blue);font-size:12px;display:inline-block;width:max-content}.auth-wrap{max-width:490px;margin:38px auto}.auth-card{background:white;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:20px;padding:clamp(22px,5vw,34px)}.auth-card h1{margin:0 0 6px;font-size:28px}.auth-card>p{color:var(--muted);margin:0 0 22px}.auth-tabs{display:flex;gap:8px;background:#f0f5f7;border-radius:11px;padding:4px;margin-bottom:20px}.auth-tabs button{flex:1;border:0;padding:9px;border-radius:8px;background:transparent;color:var(--muted);font-weight:700}.auth-tabs button.active{background:white;color:var(--blue);box-shadow:0 1px 4px #12304a16}.footer{text-align:center;color:var(--muted);font-size:12px;padding:22px}.inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.right{margin-left:auto}.checkline{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--muted)}.checkline input{margin-top:4px}.divider{height:1px;background:var(--line);margin:18px 0}.toast{position:fixed;right:18px;bottom:18px;max-width:min(390px,calc(100vw - 36px));padding:14px 18px;border-radius:12px;background:#12304a;color:white;box-shadow:var(--shadow);z-index:99}.mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.hidden-label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;overflow-x:auto;gap:4px;padding:8px}.nav-btn{white-space:nowrap;width:auto;flex-shrink:0}.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-icon{font-size:55px}}
+@media(max-width:600px){.container{padding:17px 12px 35px}.topbar{padding:12px 14px}.hero{border-radius:16px}.hero-icon{display:none}.stats{grid-template-columns:1fr}.grid2,.grid3{grid-template-columns:1fr}.panel{padding:16px}.section-head h2{font-size:22px}.top-actions span{display:none}.btn{padding:10px 12px}.auth-wrap{margin:20px auto}.auth-card{border-radius:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><div class="brand-mark" aria-hidden="true">✚</div><span>CarePoint <span style="font-weight:400;color:#b8dce5">Hospital</span></span></div>
+  <div class="top-actions"><span id="topUser">A simpler way to manage appointments</span><button id="logoutBtn" class="btn secondary small hidden" onclick="logout()">Sign out</button></div>
+</header>
+<main id="authView" class="container">
+  <div class="hero"><div><h1>Healthcare appointments,<br>made simpler.</h1><p>Find the right specialist, book a convenient time, and keep every appointment in one place.</p></div><div class="hero-icon" aria-hidden="true">♡</div></div>
+  <div class="auth-wrap"><section class="auth-card">
+    <h1 id="authTitle">Welcome back</h1><p id="authSub">Sign in to manage your hospital appointments.</p>
+    <div class="auth-tabs"><button id="loginTab" class="active" onclick="setAuthMode('login')">Sign in</button><button id="registerTab" onclick="setAuthMode('register')">Create account</button></div>
+    <form id="authForm" onsubmit="handleAuth(event)">
+      <div id="nameField" class="field hidden" style="margin-bottom:14px"><label for="authName">Full name</label><input id="authName" autocomplete="name" placeholder="e.g. Lerato Mokoena"></div>
+      <div class="field" style="margin-bottom:14px"><label for="authEmail">Email address</label><input id="authEmail" type="email" autocomplete="email" required placeholder="@gmail.com"></div>
+      <div class="field" style="margin-bottom:14px"><label for="authPassword">Password</label><input id="authPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters"></div>
+      <div id="registerInfo" class="notice hidden">New accounts are created as <strong>Patient</strong>. Only the administrator can assign doctor or administrator access.</div>
+      <button class="btn primary" type="submit" style="width:100%;margin-top:4px" id="authSubmit">Sign in</button>
+    </form>
+    <div id="authMessage" role="status" aria-live="polite"></div>
+    <div class="divider"></div>
+    <div class="notice warning"><strong></strong><br><span class="mono"></span><br><span class="mono"></span><br><span class="small-note">.</span></div>
+    <p class="small-note"></p>
+  </section></div>
+</main>
+<main id="appView" class="container hidden">
+  <div class="hero"><div><h1 id="welcomeTitle">Good day.</h1><p id="welcomeText">Manage your healthcare appointments from one place.</p></div><div class="hero-icon" aria-hidden="true">♡</div></div>
+  <div class="layout"><nav class="sidebar" id="sidebar" aria-label="Main navigation"></nav><section id="pageContent" class="content" aria-live="polite"></section></div>
+</main>
+<footer class="footer">CarePoint</footer>
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const SPECIALTIES = ["General Practitioner","Pediatrician","Cardiologist","Dermatologist"];
+let users=[],appointments=[];
+let currentUser=null,authMode="login",activePage="dashboard",toastTimer=null;
+function escapeHTML(s=""){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function id(){return "id-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,8)}
+function fmtDate(d){if(!d)return "—";return new Date(d+"T12:00:00").toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"})}
+function fmtTime(t){if(!t)return "—";let [h,m]=t.split(":").map(Number);let ap=h>=12?"PM":"AM";return `${h%12||12}:${String(m).padStart(2,"0")} ${ap}`}
+function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.remove("hidden");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.add("hidden"),3500)}
+function setAuthMode(mode){authMode=mode;document.getElementById("loginTab").classList.toggle("active",mode==="login");document.getElementById("registerTab").classList.toggle("active",mode==="register");document.getElementById("authTitle").textContent=mode==="login"?"Welcome back":"Create your account";document.getElementById("authSub").textContent=mode==="login"?"Sign in to manage your hospital appointments.":"Register to search for doctors and book appointments.";document.getElementById("nameField").classList.toggle("hidden",mode!=="register");document.getElementById("authName").required=mode==="register";document.getElementById("registerInfo").classList.toggle("hidden",mode!=="register");document.getElementById("authSubmit").textContent=mode==="login"?"Sign in":"Create patient account";document.getElementById("authPassword").autocomplete=mode==="login"?"current-password":"new-password";document.getElementById("authMessage").textContent=""}
+function handleAuth(e){e.preventDefault();const email=document.getElementById("authEmail").value.trim().toLowerCase(),password=document.getElementById("authPassword").value;const msg=document.getElementById("authMessage");if(authMode==="register"){const name=document.getElementById("authName").value.trim();if(!name){msg.innerHTML='<div class="notice danger-note">Please enter your full name.</div>';return}if(users.some(u=>u.email.toLowerCase()===email)){msg.innerHTML='<div class="notice danger-note">An account with this email already exists.</div>';return}const user={id:id(),name,email,password,role:"patient",specialty:"",createdAt:new Date().toISOString()};users.push(user);saveUsers();loginUser(user);toast("Your patient account was created.")}else{const user=users.find(u=>u.email.toLowerCase()===email&&u.password===password);if(!user){msg.innerHTML='<div class="notice danger-note">Email or password is incorrect. Please try again.</div>';return}loginUser(user)}}
+function loginUser(user){currentUser=user;activePage="dashboard";document.getElementById("authView").classList.add("hidden");document.getElementById("appView").classList.remove("hidden");document.getElementById("logoutBtn").classList.remove("hidden");document.getElementById("topUser").textContent=user.name+" · "+roleName(user.role);document.getElementById("welcomeTitle").textContent="Hello, "+user.name.split(" ")[0]+".";document.getElementById("welcomeText").textContent=user.role==="admin"?"Manage users, access roles, specialties, and hospital appointments.":user.role==="doctor"?"Your schedule and appointment details are all in one place.":"Find a specialist and manage your appointments with confidence.";renderApp()}
+function logout(){currentUser=null;document.getElementById("appView").classList.add("hidden");document.getElementById("authView").classList.remove("hidden");document.getElementById("logoutBtn").classList.add("hidden");document.getElementById("topUser").textContent="A simpler way to manage appointments";document.getElementById("authForm").reset();setAuthMode("login")}
+function roleName(role){return role==="admin"?"System administrator":role==="doctor"?"Doctor":"Patient"}
+function navItems(){if(currentUser.role==="admin")return [["dashboard","▦","Overview"],["users","♙","User management"],["appointments","▤","All appointments"],["reminders","✉","Notifications"],["help","ⓘ","Help"]];if(currentUser.role==="doctor")return [["dashboard","▦","My dashboard"],["appointments","▤","My appointments"],["reminders","✉","Notifications"],["profile","♙","My profile"],["help","ⓘ","Help"]];return [["dashboard","▦","My dashboard"],["doctors","⚕","Find a doctor"],["book","＋","Book appointment"],["appointments","▤","My appointments"],["reminders","✉","Notifications"],["profile","♙","My profile"],["help","ⓘ","Help"]]}
+function renderApp(){document.getElementById("sidebar").innerHTML=navItems().map(([key,ico,label])=>`<button class="nav-btn ${activePage===key?"active":""}" onclick="go('${key}')"><span aria-hidden="true">${ico}</span>${label}</button>`).join("");renderPage()}
+function go(page){activePage=page;renderApp();if(window.innerWidth<850)document.getElementById("pageContent").scrollIntoView({behavior:"smooth",block:"start"})}
+function setPage(html){document.getElementById("pageContent").innerHTML=html}
+function appointmentsForUser(){return appointments.filter(a=>currentUser.role==="admin"|| (currentUser.role==="doctor"?a.doctorId===currentUser.id:a.patientId===currentUser.id))}
+function statCard(label,num,sub=""){return `<div class="stat"><div class="label">${label}</div><div class="number">${num}</div><div class="small-note">${sub}</div></div>`}
+function statusBadge(status){return `<span class="badge ${escapeHTML(status.toLowerCase())}">${escapeHTML(status)}</span>`}
+function renderPage(){if(!currentUser)return;switch(activePage){case"dashboard":return renderDashboard();case"users":return renderUsers();case"doctors":return renderDoctors();case"book":return renderBook();case"appointments":return renderAppointments();case"reminders":return renderReminders();case"profile":return renderProfile();case"help":return renderHelp();default:activePage="dashboard";return renderDashboard()}}
+function renderDashboard(){const mine=appointmentsForUser(),upcoming=mine.filter(a=>a.status!=="Cancelled"&&a.date>=today()).sort(sortAppts),done=mine.filter(a=>a.status==="Completed").length;let stats= currentUser.role==="admin"?[statCard("Registered users",users.length,"Across all roles"),statCard("Total appointments",appointments.length,"All booking records"),statCard("Upcoming appointments",upcoming.length,"Not cancelled")]:[statCard("Total appointments",mine.length,"Your appointment records"),statCard("Upcoming",upcoming.length,"From today onwards"),statCard("Completed",done,"Completed appointments")];let content=`<div class="section-head"><div><h2>${currentUser.role==="admin"?"System overview":currentUser.role==="doctor"?"Your schedule":"Your health dashboard"}</h2><p>A clear summary of the information you need most.</p></div>${currentUser.role==="patient"?'<button class="btn primary" onclick="go(&quot;book&quot;)">＋ Book an appointment</button>':""}</div><div class="stats">${stats.join("")}</div>`;
+if(currentUser.role==="admin"){content+=`<div class="panel"><h3>Quick administration</h3><p class="muted">New registrations receive patient access by default. Assign doctor or administrator access only to trusted accounts.</p><div class="actions"><button class="btn primary" onclick="go('users')">Manage user roles</button><button class="btn secondary" onclick="go('appointments')">View all appointments</button><button class="btn secondary" onclick="go('reminders')">Review email reminders</button></div></div>`}
+if(currentUser.role==="doctor"){content+=`<div class="panel"><h3>Your professional details</h3><div class="inline"><span class="pill">${escapeHTML(currentUser.specialty||"Specialty not assigned")}</span><span class="muted">${escapeHTML(currentUser.email)}</span></div><p class="small-note">If your specialty or account details are incorrect, contact the system administrator.</p></div>`}
+content+=`<div class="panel"><div class="section-head"><div><h3>Upcoming appointments</h3><p>Appointments from today onwards.</p></div><button class="btn secondary small" onclick="go('appointments')">View all</button></div>${upcoming.length?appointmentTable(upcoming.slice(0,5),false):'<div class="empty">No upcoming appointments yet.</div>'}</div>`;setPage(content)}
+function sortAppts(a,b){return (a.date+a.time).localeCompare(b.date+b.time)}
+function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function appointmentTable(items,showPeople=true){return `<div class="table-wrap"><table><thead><tr><th>Date & time</th>${showPeople?'<th>Patient</th><th>Doctor</th>':currentUser.role==="patient"?'<th>Doctor</th>':'<th>Patient</th>'}<th>Reason</th><th>Status</th><th>Actions</th></tr></thead><tbody>${items.map(a=>{const patient=users.find(u=>u.id===a.patientId),doctor=users.find(u=>u.id===a.doctorId);return `<tr><td><strong>${fmtDate(a.date)}</strong><br><span class="muted">${fmtTime(a.time)}</span></td>${showPeople?`<td>${escapeHTML(patient?.name||"Unknown")}</td><td>${escapeHTML(doctor?.name||"Unknown")}<br><span class="small-note">${escapeHTML(doctor?.specialty||"")}</span></td>`:currentUser.role==="patient"?`<td>${escapeHTML(doctor?.name||"Unknown")}<br><span class="small-note">${escapeHTML(doctor?.specialty||"")}</span></td>`:`<td>${escapeHTML(patient?.name||"Unknown")}</td>`}<td>${escapeHTML(a.reason||"General consultation")}</td><td>${statusBadge(a.status)}</td><td><div class="inline">${a.status!=="Cancelled"&&a.status!=="Completed"&&a.date>=today()&&currentUser.role!=="admin"?`<button class="btn secondary small" onclick="reschedule('${a.id}')">Reschedule</button>`:""}${currentUser.role==="doctor"&&a.status==="Confirmed"?`<button class="btn teal small" onclick="changeStatus('${a.id}','Completed')">Complete</button><button class="btn secondary small" onclick="changeStatus('${a.id}','Cancelled')">Cancel</button>`:""}${currentUser.role==="patient"&&a.status!=="Cancelled"&&a.status!=="Completed"&&a.date>=today()?`<button class="btn danger small" onclick="cancelAppointment('${a.id}')">Cancel</button>`:""}${currentUser.role==="admin"?`<button class="btn secondary small" onclick="adminStatus('${a.id}')">Change status</button>`:""}</div></td></tr>`}).join("")}</tbody></table></div>`}
+function renderAppointments(){let items=appointmentsForUser().sort(sortAppts);setPage(`<div class="section-head"><div><h2>${currentUser.role==="admin"?"All appointments":currentUser.role==="doctor"?"My appointments":"My appointments"}</h2><p>${currentUser.role==="admin"?"Review bookings and update appointment statuses.":"View, manage, and track your appointment bookings."}</p></div>${currentUser.role==="patient"?'<button class="btn primary" onclick="go(&quot;book&quot;)">＋ Book appointment</button>':""}</div><div class="panel"><div class="inline" style="margin-bottom:14px"><label for="statusFilter" class="muted">Filter by status</label><select id="statusFilter" class="searchbox" style="max-width:220px" onchange="filterAppointmentTable()"><option value="All">All statuses</option><option>Confirmed</option><option>Completed</option><option>Cancelled</option></select></div><div id="appointmentList">${items.length?appointmentTable(items,currentUser.role==="admin"):'<div class="empty">No appointments found. New bookings will appear here.</div>'}</div></div>`);window._appointmentRows=items}
+function filterAppointmentTable(){const v=document.getElementById("statusFilter").value;const items=(window._appointmentRows||[]).filter(a=>v==="All"||a.status===v);document.getElementById("appointmentList").innerHTML=items.length?appointmentTable(items,currentUser.role==="admin"):'<div class="empty">No appointments match this filter.</div>'}
+function renderDoctors(){const q=(document.getElementById("doctorSearch")?.value||"").toLowerCase(),spec=document.getElementById("specialtyFilter")?.value||"All";const doctors=users.filter(u=>u.role==="doctor"&&(!q||(u.name+" "+u.specialty).toLowerCase().includes(q))&&(spec==="All"||u.specialty===spec));setPage(`<div class="section-head"><div><h2>Find a doctor</h2><p>Search by name or filter by specialty to find the right care.</p></div></div><div class="panel"><div class="grid2"><div class="field"><label for="doctorSearch">Search doctors</label><input id="doctorSearch" value="${escapeHTML(q)}" placeholder="Doctor name or specialty" oninput="renderDoctors()"></div><div class="field"><label for="specialtyFilter">Specialty</label><select id="specialtyFilter" onchange="renderDoctors()"><option>All</option>${SPECIALTIES.map(s=>`<option ${spec===s?"selected":""}>${s}</option>`).join("")}</select></div></div></div><div class="grid2">${doctors.map(d=>`<article class="doctor-card"><div class="doctor-top"><div class="avatar" aria-hidden="true">⚕</div><div><h3>${escapeHTML(d.name)}</h3><p>${escapeHTML(d.specialty)}</p></div></div><span class="pill">Appointment bookings available</span><p>Choose a suitable date and time for a consultation.</p><button class="btn primary" onclick="startBooking('${d.id}')">Book with this doctor</button></article>`).join("")||'<div class="panel empty">No doctors match your search. Try another name or specialty.</div>'}</div>`)}
+function startBooking(doctorId){go("book");setTimeout(()=>{const s=document.getElementById("bookDoctor");if(s)s.value=doctorId},0)}
+function renderBook(){const docs=users.filter(u=>u.role==="doctor");if(!docs.length){setPage('<div class="panel"><h2>Book an appointment</h2><div class="notice warning">No doctors have been registered yet. Please contact the administrator.</div></div>');return}const chosen=new URLSearchParams(location.search).get("doctor")||"";setPage(`<div class="section-head"><div><h2>Book an appointment</h2><p>Complete the details below. Fields marked required must be filled in.</p></div></div><div class="panel"><form onsubmit="createAppointment(event)"><div class="grid2"><div class="field"><label for="bookDoctor">Doctor and specialty *</label><select id="bookDoctor" required><option value="">Select a doctor</option>${docs.map(d=>`<option value="${d.id}" ${chosen===d.id?"selected":""}>${escapeHTML(d.name)} — ${escapeHTML(d.specialty)}</option>`).join("")}</select></div><div class="field"><label for="bookDate">Preferred date *</label><input id="bookDate" type="date" min="${today()}" required></div><div class="field"><label for="bookTime">Preferred time *</label><select id="bookTime" required><option value="">Choose a time</option>${["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","13:00","13:30","14:00","14:30","15:00","15:30"].map(t=>`<option value="${t}">${fmtTime(t)}</option>`).join("")}</select></div><div class="field"><label for="bookReason">Reason for visit *</label><select id="bookReason" required><option value="">Select a reason</option><option>General consultation</option><option>Follow-up visit</option><option>Child health</option><option>Heart health</option><option>Skin concern</option><option>Other</option></select></div></div><div class="field" style="margin-top:15px"><label for="bookNotes">Additional notes (optional)</label><textarea id="bookNotes" maxlength="500" placeholder="Briefly share anything the doctor should know. Avoid sensitive details in this demo."></textarea></div><div class="notice"></div><div class="notice"></div><div class="actions"><button class="btn primary" type="submit">Confirm booking</button><button class="btn secondary" type="button" onclick="go('doctors')">Back to doctors</button></div></form></div>`)}
+function createAppointment(e){e.preventDefault();const doctorId=document.getElementById("bookDoctor").value,date=document.getElementById("bookDate").value,time=document.getElementById("bookTime").value,reason=document.getElementById("bookReason").value,notes=document.getElementById("bookNotes").value.trim(),doctor=users.find(u=>u.id===doctorId);if(!doctor){toast("Please select a valid doctor.");return}if(date<today()){toast("Please choose today or a future date.");return}if(date===today()&&time<=`${String(new Date().getHours()).padStart(2,"0")}:${String(new Date().getMinutes()).padStart(2,"0")}`){toast("Please choose a future time.");return}const conflict=appointments.some(a=>a.doctorId===doctorId&&a.date===date&&a.time===time&&a.status!=="Cancelled");if(conflict){toast("That time is already booked with this doctor. Please choose another time.");return}const patientConflict=appointments.some(a=>a.patientId===currentUser.id&&a.date===date&&a.time===time&&a.status!=="Cancelled");if(patientConflict){toast("You already have an appointment at that time.");return}appointments.push({id:id(),patientId:currentUser.id,doctorId,date,time,reason,notes,status:"Confirmed",createdAt:new Date().toISOString(),reminderPatientSent:false,reminderDoctorSent:false});saveAppointments();toast("Appointment booked successfully.");go("appointments")}
+function cancelAppointment(aid){const a=appointments.find(x=>x.id===aid);if(!a)return;if(!confirm("Cancel this appointment?"))return;a.status="Cancelled";saveAppointments();toast("Appointment cancelled.");renderApp()}
+function reschedule(aid){const a=appointments.find(x=>x.id===aid);if(!a)return;const date=prompt("Enter new date (YYYY-MM-DD):",a.date);if(date===null)return;const time=prompt("Enter new time (HH:MM, 24-hour format):",a.time);if(time===null)return;if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||date<today()||!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)){toast("Enter a valid future date and time.");return}if(date===today()&&time<=`${String(new Date().getHours()).padStart(2,"0")}:${String(new Date().getMinutes()).padStart(2,"0")}`){toast("Choose a future time.");return}if(appointments.some(x=>x.id!==aid&&x.doctorId===a.doctorId&&x.date===date&&x.time===time&&x.status!=="Cancelled")){toast("That time is already booked.");return}a.date=date;a.time=time;a.reminderPatientSent=false;a.reminderDoctorSent=false;saveAppointments();toast("Appointment rescheduled.");renderApp()}
+function changeStatus(aid,status){const a=appointments.find(x=>x.id===aid);if(!a)return;a.status=status;saveAppointments();toast("Appointment status updated.");renderApp()}
+function adminStatus(aid){const a=appointments.find(x=>x.id===aid);if(!a)return;const next=prompt("Enter status: Confirmed, Completed, or Cancelled",a.status);if(!next)return;const valid=["Confirmed","Completed","Cancelled"];const val=valid.find(x=>x.toLowerCase()===next.trim().toLowerCase());if(!val){toast("Please enter Confirmed, Completed, or Cancelled.");return}a.status=val;saveAppointments();toast("Appointment status updated.");renderApp()}
+function renderUsers(){setPage(`<div class="section-head"><div><h2>User management</h2><p>Assign roles and doctor specialties. Only the administrator can change access levels.</p></div></div><div class="panel"><h3>Add a user</h3><form onsubmit="adminAddUser(event)"><div class="grid3"><div class="field"><label for="newName">Full name *</label><input id="newName" required></div><div class="field"><label for="newEmail">Email address *</label><input id="newEmail" type="email" required></div><div class="field"><label for="newPassword">Temporary password *</label><input id="newPassword" type="password" minlength="6" required></div><div class="field"><label for="newRole">Role *</label><select id="newRole" onchange="toggleSpecialtyField()"><option value="patient">Patient</option><option value="doctor">Doctor</option><option value="admin">System administrator</option></select></div><div class="field hidden" id="newSpecialtyField"><label for="newSpecialty">Doctor specialty *</label><select id="newSpecialty">${SPECIALTIES.map(s=>`<option>${s}</option>`).join("")}</select></div></div><div class="actions"><button class="btn primary" type="submit">＋ Create user</button></div></form></div><div class="panel"><div class="section-head"><div><h3>Registered users (${users.length})</h3><p>Use role controls carefully. Do not grant administrator access unnecessarily.</p></div><input class="searchbox" style="max-width:260px" id="userSearch" placeholder="Search name or email" oninput="filterUsers()"></div><div id="usersTable">${usersTable(users)}</div></div>`)}
+function toggleSpecialtyField(){const doctor=document.getElementById("newRole").value==="doctor";document.getElementById("newSpecialtyField").classList.toggle("hidden",!doctor);document.getElementById("newSpecialty").required=doctor}
+function usersTable(list){return `<div class="table-wrap"><table><thead><tr><th>Name / email</th><th>Role</th><th>Specialty</th><th>Access settings</th></tr></thead><tbody>${list.map(u=>`<tr><td><strong>${escapeHTML(u.name)}</strong><br><span class="small-note">${escapeHTML(u.email)}</span></td><td><span class="badge">${roleName(u.role)}</span></td><td>${escapeHTML(u.specialty||"—")}</td><td>${u.id==="u-admin"?'<span class="small-note">Protected demo account</span>':`<div class="inline"><select aria-label="Role for ${escapeHTML(u.name)}" id="role-${u.id}" onchange="toggleRowSpecialty('${u.id}')" style="max-width:155px;padding:7px;border:1px solid var(--line);border-radius:8px"><option value="patient" ${u.role==="patient"?"selected":""}>Patient</option><option value="doctor" ${u.role==="doctor"?"selected":""}>Doctor</option><option value="admin" ${u.role==="admin"?"selected":""}>Administrator</option></select><select aria-label="Specialty for ${escapeHTML(u.name)}" id="spec-${u.id}" class="${u.role!=="doctor"?"hidden":""}" style="max-width:175px;padding:7px;border:1px solid var(--line);border-radius:8px">${SPECIALTIES.map(s=>`<option ${u.specialty===s?"selected":""}>${s}</option>`).join("")}</select><button class="btn secondary small" onclick="saveUserRole('${u.id}')">Save</button><button class="btn danger small" onclick="deleteUser('${u.id}')">Delete</button></div>`}</td></tr>`).join("")}</tbody></table></div>`}
+function toggleRowSpecialty(uid){const role=document.getElementById("role-"+uid).value;document.getElementById("spec-"+uid).classList.toggle("hidden",role!=="doctor")}
+function filterUsers(){const q=document.getElementById("userSearch").value.toLowerCase();document.getElementById("usersTable").innerHTML=usersTable(users.filter(u=>(u.name+" "+u.email+" "+u.role+" "+u.specialty).toLowerCase().includes(q)))}
+function adminAddUser(e){e.preventDefault();const name=document.getElementById("newName").value.trim(),email=document.getElementById("newEmail").value.trim().toLowerCase(),password=document.getElementById("newPassword").value,role=document.getElementById("newRole").value,specialty=role==="doctor"?document.getElementById("newSpecialty").value:"";if(users.some(u=>u.email.toLowerCase()===email)){toast("That email is already registered.");return}const u={id:id(),name,email,password,role,specialty,createdAt:new Date().toISOString()};users.push(u);saveUsers();toast("User account created.");renderUsers()}
+function saveUserRole(uid){const u=users.find(x=>x.id===uid);if(!u)return;const role=document.getElementById("role-"+uid).value,spec=document.getElementById("spec-"+uid);if(role==="doctor"&&!spec){toast("Select a specialty for the doctor.");return}if(u.role==="doctor"&&role!=="doctor"&&appointments.some(a=>a.doctorId===uid&&a.status==="Confirmed"&&a.date>=today())){if(!confirm("This doctor has upcoming confirmed appointments. Continue changing the role?"))return}u.role=role;u.specialty=role==="doctor"?spec.value:"";saveUsers();if(currentUser.id===uid){currentUser=u;document.getElementById("topUser").textContent=u.name+" · "+roleName(u.role);activePage="dashboard"}toast("Role and specialty saved.");renderApp()}
+function deleteUser(uid){const u=users.find(x=>x.id===uid);if(!u||u.id==="u-admin")return;if(!confirm(`Delete ${u.name}'s account? Existing appointment records will remain for the audit trail.`))return;users=users.filter(x=>x.id!==uid);saveUsers();toast("User deleted.");renderUsers()}
+function renderProfile(){setPage(`<div class="section-head"><div><h2>My profile</h2><p>Review your account details.</p></div></div><div class="panel"><form onsubmit="saveProfile(event)"><div class="grid2"><div class="field"><label for="profileName">Full name</label><input id="profileName" required value="${escapeHTML(currentUser.name)}"></div><div class="field"><label for="profileEmail">Email address</label><input id="profileEmail" type="email" required value="${escapeHTML(currentUser.email)}"></div><div class="field"><label>Role</label><input disabled value="${roleName(currentUser.role)}"></div><div class="field"><label>Specialty</label><input disabled value="${escapeHTML(currentUser.specialty||"Not applicable")}"></div></div><div class="actions"><button class="btn primary" type="submit">Save profile</button></div></form><div class="divider"></div><div class="notice warning"></div></div>`)}
+function saveProfile(e){e.preventDefault();const name=document.getElementById("profileName").value.trim(),email=document.getElementById("profileEmail").value.trim().toLowerCase();if(users.some(u=>u.id!==currentUser.id&&u.email.toLowerCase()===email)){toast("That email is already used by another account.");return}currentUser.name=name;currentUser.email=email;users=users.map(u=>u.id===currentUser.id?currentUser:u);saveUsers();document.getElementById("topUser").textContent=name+" · "+roleName(currentUser.role);document.getElementById("welcomeTitle").textContent="Hello, "+name.split(" ")[0]+".";toast("Profile updated.");renderApp()}
+function renderHelp(){setPage(`<div class="section-head"><div><h2>Help principles</h2><p>Designed to keep common tasks easy to learn and complete.</p></div></div><div class="panel"><h3>How to use CarePoint</h3><ol><li><strong>Patients:</strong> search for a doctor, choose a date and time, then confirm your booking.</li><li><strong>Patients:</strong> open My appointments to reschedule or cancel an upcoming booking.</li><li><strong>Doctors:</strong> check My appointments and update appointment status.</li><li><strong>Administrators:</strong> open User management to create accounts and assign roles or specialties.</li><li><strong>Notifications:</strong> open Notifications to review upcoming appointments and reminder timing.</li></ol></div><div class="panel"><h3></h3><div class="grid2"><div><strong>Consistency</strong><p class="muted">The same button styles, navigation, and labels are used throughout.</p></div><div><strong>Visibility of system status</strong><p class="muted">Status badges and success messages show the result of user actions.</p></div><div><strong>Error prevention</strong><p class="muted">Required fields, date restrictions, and overlapping appointment checks reduce booking mistakes.</p></div><div><strong>Recognition over recall</strong><p class="muted">Doctor specialties, filters, and visible appointment lists reduce memory effort.</p></div><div><strong>Accessibility</strong><p class="muted">Form labels, readable contrast, responsive layout, and status announcements support different users.</p></div><div><strong>User control</strong><p class="muted">Patients can manage bookings and users receive feedback after actions.</p></div></div></div><div class="panel"><h3>Important prototype limitations</h3><ul><li>Profiles and appointments are stored in this browser only.</li><li>This classroom demo stores account details, including passwords, in this browser only. Do not use real patient data or reuse real passwords.</li><li>Pop-up notifications repeat every 30 seconds during the hour before a confirmed appointment while the page is open.</li><li>Keep the app open and signed in to receive in-app appointment reminder pop-ups.</li></ul></div>`)}
+const BOOKING_TIMES=["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","13:00","13:30","14:00","14:30","15:00","15:30"];
+const APPOINTMENT_DURATIONS=[15,30,45];
+const appointmentTableWithoutDuration=appointmentTable;
+
+function appointmentDuration(appointment){const duration=Number(appointment.durationMinutes);return APPOINTMENT_DURATIONS.includes(duration)?duration:30}
+function timeInMinutes(time){if(!/^([01]\d|2[0-3]):[0-5]\d$/.test(time||""))return null;const [hours,minutes]=time.split(":").map(Number);return hours*60+minutes}
+function bookingConflict(doctorId,patientId,date,time,duration,excludeId=""){const start=timeInMinutes(time);if(start===null)return "invalid";const end=start+duration;let doctorConflict=false,patientConflict=false;for(const appointment of appointments){if(appointment.id===excludeId||String(appointment.status).toLowerCase()==="cancelled"||appointment.date!==date)continue;const existingStart=timeInMinutes(appointment.time);if(existingStart===null)continue;const existingEnd=existingStart+appointmentDuration(appointment);if(start>=existingEnd||existingStart>=end)continue;if(appointment.doctorId===doctorId)doctorConflict=true;if(appointment.patientId===patientId)patientConflict=true}return patientConflict?"patient":doctorConflict?"doctor":""}
+function availableBookingTimes(doctorId,patientId,date,duration){if(!doctorId||!date||date<today())return [];const now=new Date(),currentTime=`${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;return BOOKING_TIMES.filter(time=>{const start=timeInMinutes(time);return start+duration<=16*60&&!(date===today()&&time<=currentTime)&&!bookingConflict(doctorId,patientId,date,time,duration)})}
+function refreshAvailableTimes(){const doctor=document.getElementById("bookDoctor"),date=document.getElementById("bookDate"),duration=document.getElementById("bookDuration"),time=document.getElementById("bookTime");if(!doctor||!date||!duration||!time)return;const slots=availableBookingTimes(doctor.value,currentUser.id,date.value,Number(duration.value));const previous=time.value;time.innerHTML=`<option value="">${slots.length?"Choose an available time":doctor.value&&date.value?"No times available":"Choose a doctor and date first"}</option>`+slots.map(slot=>`<option value="${slot}">${fmtTime(slot)}</option>`).join("");time.disabled=!doctor.value||!date.value;if(slots.includes(previous))time.value=previous}
+
+startBooking=function(doctorId){go("book");setTimeout(()=>{const select=document.getElementById("bookDoctor");if(select){select.value=doctorId;refreshAvailableTimes()}},0)};
+renderBook=function(){const docs=users.filter(user=>user.role==="doctor");if(!docs.length){setPage('<div class="panel"><h2>Book an appointment</h2><div class="notice warning">No doctors have been registered yet. Please contact the administrator.</div></div>');return}const chosen=new URLSearchParams(location.search).get("doctor")||"";setPage(`<div class="section-head"><div><h2>Book an appointment</h2><p>Choose an appointment length and a time that is available for both you and the doctor.</p></div></div><div class="panel"><form onsubmit="createAppointment(event)"><div class="grid2"><div class="field"><label for="bookDoctor">Doctor and specialty *</label><select id="bookDoctor" required onchange="refreshAvailableTimes()"><option value="">Select a doctor</option>${docs.map(doctor=>`<option value="${doctor.id}" ${chosen===doctor.id?"selected":""}>${escapeHTML(doctor.name)} — ${escapeHTML(doctor.specialty)}</option>`).join("")}</select></div><div class="field"><label for="bookDate">Preferred date *</label><input id="bookDate" type="date" min="${today()}" required onchange="refreshAvailableTimes()"></div><div class="field"><label for="bookDuration">Appointment length *</label><select id="bookDuration" required onchange="refreshAvailableTimes()">${APPOINTMENT_DURATIONS.map(duration=>`<option value="${duration}" ${duration===30?"selected":""}>${duration} minutes</option>`).join("")}</select></div><div class="field"><label for="bookTime">Preferred time *</label><select id="bookTime" required disabled><option value="">Choose a doctor and date first</option></select></div><div class="field"><label for="bookReason">Reason for visit *</label><select id="bookReason" required><option value="">Select a reason</option><option>General consultation</option><option>Follow-up visit</option><option>Child health</option><option>Heart health</option><option>Skin concern</option><option>Other</option></select></div></div><div class="field" style="margin-top:15px"><label for="bookNotes">Additional notes (optional)</label><textarea id="bookNotes" maxlength="500" placeholder="Briefly share anything the doctor should know. Avoid sensitive details in this demo."></textarea></div><div class="notice">Available times update when you choose a doctor, date, or duration. The system prevents overlapping bookings for the doctor and for you. Appointments must finish by 4:00 PM.</div><div class="notice"></div><div class="actions"><button class="btn primary" type="submit">Confirm booking</button><button class="btn secondary" type="button" onclick="go('doctors')">Back to doctors</button></div></form></div>`);refreshAvailableTimes()};
+
+createAppointment=function(event){event.preventDefault();const doctorId=document.getElementById("bookDoctor").value,date=document.getElementById("bookDate").value,time=document.getElementById("bookTime").value,duration=Number(document.getElementById("bookDuration").value),reason=document.getElementById("bookReason").value,notes=document.getElementById("bookNotes").value.trim(),doctor=users.find(user=>user.id===doctorId&&user.role==="doctor");if(!doctor){toast("Please select a valid doctor.");return}if(!date||date<today()){toast("Please choose today or a future date.");return}if(!APPOINTMENT_DURATIONS.includes(duration)){toast("Choose an appointment length of 15, 30, or 45 minutes.");return}const start=timeInMinutes(time);if(start===null||!BOOKING_TIMES.includes(time)||start+duration>16*60){toast("Please choose an available time before 4:00 PM.");refreshAvailableTimes();return}if(date===today()&&time<=`${String(new Date().getHours()).padStart(2,"0")}:${String(new Date().getMinutes()).padStart(2,"0")}`){toast("Please choose a future time.");refreshAvailableTimes();return}const conflict=bookingConflict(doctorId,currentUser.id,date,time,duration);if(conflict){toast(conflict==="patient"?"You already have an appointment that overlaps this time.":"This doctor has an appointment that overlaps this time.");refreshAvailableTimes();return}appointments.push({id:id(),patientId:currentUser.id,doctorId,date,time,durationMinutes:duration,reason,notes,status:"Confirmed",createdAt:new Date().toISOString(),reminderPatientSent:false,reminderDoctorSent:false});saveAppointments();toast("Appointment booked successfully.");go("appointments")};
+
+reschedule=function(appointmentId){const appointment=appointments.find(item=>item.id===appointmentId);if(!appointment)return;const date=prompt("Enter new date (YYYY-MM-DD):",appointment.date);if(date===null)return;const time=prompt("Enter new time (HH:MM, 24-hour format):",appointment.time);if(time===null)return;const duration=appointmentDuration(appointment),start=timeInMinutes(time);if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||date<today()||start===null||!BOOKING_TIMES.includes(time)||start+duration>16*60){toast("Enter a valid future date and time within the available clinic hours.");return}if(date===today()&&time<=`${String(new Date().getHours()).padStart(2,"0")}:${String(new Date().getMinutes()).padStart(2,"0")}`){toast("Choose a future time.");return}const conflict=bookingConflict(appointment.doctorId,appointment.patientId,date,time,duration,appointmentId);if(conflict){toast(conflict==="patient"?"The patient already has an appointment that overlaps this time.":"That time overlaps another appointment with this doctor.");return}appointment.date=date;appointment.time=time;appointment.durationMinutes=duration;appointment.reminderPatientSent=false;appointment.reminderDoctorSent=false;saveAppointments();toast("Appointment rescheduled.");renderApp()};
+
+const appointmentTableWithDuration=appointmentTableWithoutDuration;
+appointmentTable=function(items,showPeople=true){let rowIndex=0;return appointmentTableWithDuration(items,showPeople).replace(/(<span class="muted">)([^<]*)(<\/span>)/g,(match,open,time,close)=>{const appointment=items[rowIndex++];return `${open}${time} · ${appointmentDuration(appointment)} min${close}`})};
+
+const originalNotificationDashboard=renderDashboard;
+renderDashboard=function(){originalNotificationDashboard();const page=document.getElementById("pageContent");page.innerHTML=page.innerHTML.replace("Review email reminders","View notifications")};
+const originalHelpPage=renderHelp;
+renderHelp=function(){
+  originalHelpPage();
+  const page=document.getElementById("pageContent");
+  page.innerHTML=page.innerHTML
+    .replace("Profiles and appointments are stored in this browser only.","Profiles and appointments are saved to Firebase and synchronized across signed-in devices.")
+    .replace("This classroom demo stores account details, including passwords, in this browser only. Do not use real patient data or reuse real passwords.","Firebase Authentication manages passwords; they are not stored in the CarePoint database.");
+};
+renderReminders=function(){
+  const upcoming=appointmentsForUser()
+    .filter(appointment=>appointment.status==="Confirmed"&&new Date(`${appointment.date}T${appointment.time}:00`).getTime()>Date.now())
+    .sort(sortAppts);
+  const rows=upcoming.map(appointment=>{
+    const patient=users.find(user=>user.id===appointment.patientId);
+    const doctor=users.find(user=>user.id===appointment.doctorId);
+    const startsAt=new Date(`${appointment.date}T${appointment.time}:00`);
+    const minutes=Math.ceil((startsAt.getTime()-Date.now())/60000);
+    const other=currentUser.role==="patient"?doctor:patient;
+    return `<tr><td><strong>${fmtDate(appointment.date)} · ${fmtTime(appointment.time)}</strong></td><td>${escapeHTML(other?.name||"")}</td><td>${minutes<=60?`In ${Math.max(1,minutes)} minutes`:"Popup starts 1 hour before"}</td></tr>`;
+  });
+  const table=rows.length
+    ?`<div class="table-wrap"><table><thead><tr><th>Appointment</th><th>${currentUser.role==="patient"?"Doctor":"Patient"}</th><th>Notification</th></tr></thead><tbody>${rows.join("")}</tbody></table></div>`
+    :'<div class="empty">No upcoming confirmed appointments.</div>';
+  setPage(`<div class="section-head"><div><h2>Notifications</h2></div></div><div class="notice"></div><div class="panel"><h3>Your upcoming appointments</h3>${table}</div>`);
+};
+let showUpcomingAppointmentReminder;
+showUpcomingAppointmentReminder=function(){
+  if(!currentUser||!["patient","doctor"].includes(currentUser.role))return;
+  const now=Date.now();
+  const upcoming=appointmentsForUser()
+    .filter(appointment=>appointment.status==="Confirmed")
+    .map(appointment=>({appointment,startsAt:new Date(`${appointment.date}T${appointment.time}:00`).getTime()}))
+    .filter(item=>Number.isFinite(item.startsAt)&&item.startsAt>now&&item.startsAt-now<=60*60*1000)
+    .sort((left,right)=>left.startsAt-right.startsAt)[0];
+  if(!upcoming)return;
+  const {appointment,startsAt}=upcoming;
+  const other=users.find(user=>user.id===(currentUser.role==="patient"?appointment.doctorId:appointment.patientId));
+  const minutesLeft=Math.max(1,Math.ceil((startsAt-now)/60000));
+  toast(`Appointment reminder: ${fmtDate(appointment.date)} at ${fmtTime(appointment.time)} with ${other?.name||("your "+(currentUser.role==="patient"?"doctor":"patient"))} is in ${minutesLeft} minute${minutesLeft===1?"":"s"}.`);
+};
+const originalNotificationLogin=loginUser;
+loginUser=function(user){originalNotificationLogin(user);showUpcomingAppointmentReminder()};
+
+setInterval(showUpcomingAppointmentReminder,30000);
+showUpcomingAppointmentReminder();
+
+const carePointFirebaseConfig = {
+  apiKey: "AIzaSyDrB6_HdOsPQhd10zMBQ7QPh6OH1wxDoIA",
+  authDomain: "hospital-45a70.firebaseapp.com",
+  projectId: "hospital-45a70",
+  storageBucket: "hospital-45a70.firebasestorage.app",
+  messagingSenderId: "877505592411",
+  appId: "1:877505592411:web:6b2a028a72df0e6a42937e",
+  measurementId: "G-LHB6M2YQSS"
+};
+
+let carePointAuth = null;
+let carePointDb = null;
+let stopUsersListener = null;
+let stopAppointmentsListener = null;
+let authFlowInProgress = false;
+let activeFirebaseUid = "";
+let appointmentDisplayUsers = [];
+
+function showFirebaseError(message) {
+  const authMessage = document.getElementById("authMessage");
+  if (authMessage) {
+    authMessage.textContent = message;
+    authMessage.classList.add("notice", "danger-note");
+  } else {
+    toast(message);
+  }
+}
+
+function firebaseErrorMessage(error) {
+  const messages = {
+    "auth/email-already-in-use": "An account with this email already exists.",
+    "auth/invalid-email": "Enter a valid email address.",
+    "auth/invalid-credential": "Email or password is incorrect. Please try again.",
+    "auth/user-not-found": "Email or password is incorrect. Please try again.",
+    "auth/wrong-password": "Email or password is incorrect. Please try again.",
+    "auth/weak-password": "Choose a stronger password with at least 6 characters.",
+    "auth/requires-recent-login": "Please sign in again before changing your email.",
+    "permission-denied": "Firebase denied this action. Check the Firestore security rules and your account role."
+  };
+  return messages[error.code] || error.message || "Firebase could not complete the request.";
+}
+
+function stopFirebaseListeners() {
+  if (stopUsersListener) stopUsersListener();
+  if (stopAppointmentsListener) stopAppointmentsListener();
+  stopUsersListener = null;
+  stopAppointmentsListener = null;
+}
+
+function startFirebaseListeners(profile) {
+  stopFirebaseListeners();
+  const usersCollection = carePointDb.collection("users");
+  const userQuery = profile.role === "admin"
+    ? usersCollection
+    : usersCollection.where("role", "==", "doctor");
+
+  stopUsersListener = userQuery.onSnapshot(snapshot => {
+    users = snapshot.docs.map(document => ({ ...document.data(), id: document.id }));
+    users.push(...appointmentDisplayUsers.filter(
+      appointmentUser => !users.some(user => user.id === appointmentUser.id)
+    ));
+    if (!users.some(user => user.id === profile.id)) users.unshift(profile);
+    currentUser = users.find(user => user.id === profile.id) || profile;
+    renderApp();
+  }, error => {
+    console.error("Could not load Firebase user profiles:", error);
+    toast(firebaseErrorMessage(error));
+  });
+
+  const appointmentsCollection = carePointDb.collection("appointments");
+  const appointmentQuery = profile.role === "admin"
+    ? appointmentsCollection
+    : appointmentsCollection.where(
+      profile.role === "doctor" ? "doctorId" : "patientId",
+      "==",
+      profile.id
+    );
+
+  stopAppointmentsListener = appointmentQuery.onSnapshot(snapshot => {
+    appointments = snapshot.docs.map(document => ({ ...document.data(), id: document.id }));
+    appointmentDisplayUsers = [];
+    for (const appointment of appointments) {
+      if (appointment.patientId && !appointmentDisplayUsers.some(user => user.id === appointment.patientId)) {
+        appointmentDisplayUsers.push({
+          id: appointment.patientId,
+          name: appointment.patientName || "Patient",
+          role: "patient"
+        });
+      }
+      if (appointment.doctorId && !appointmentDisplayUsers.some(user => user.id === appointment.doctorId)) {
+        appointmentDisplayUsers.push({
+          id: appointment.doctorId,
+          name: appointment.doctorName || "Doctor",
+          role: "doctor"
+        });
+      }
+    }
+    users.push(...appointmentDisplayUsers.filter(
+      appointmentUser => !users.some(user => user.id === appointmentUser.id)
+    ));
+    if (currentUser) renderApp();
+  }, error => {
+    console.error("Could not load Firebase appointments:", error);
+    toast(firebaseErrorMessage(error));
+  });
+}
+
+async function loadFirebaseSession(firebaseUser) {
+  const profileRef = carePointDb.collection("users").doc(firebaseUser.uid);
+  const profileSnapshot = await profileRef.get();
+  if (!profileSnapshot.exists) {
+    throw new Error("Your Firebase account has no CarePoint profile. Ask an administrator to finish setting it up.");
+  }
+
+  const profile = { ...profileSnapshot.data(), id: firebaseUser.uid };
+  if (!["patient", "doctor", "admin"].includes(profile.role)) {
+    throw new Error("Your CarePoint profile has an invalid role. Ask an administrator to correct it.");
+  }
+
+  activeFirebaseUid = firebaseUser.uid;
+  currentUser = profile;
+  users = [profile];
+  appointments = [];
+  appointmentDisplayUsers = [];
+  loginUser(profile);
+  startFirebaseListeners(profile);
+}
+
+handleAuth = async function(event) {
+  event.preventDefault();
+  const email = document.getElementById("authEmail").value.trim().toLowerCase();
+  const password = document.getElementById("authPassword").value;
+  const message = document.getElementById("authMessage");
+  message.textContent = "";
+  message.classList.remove("notice", "danger-note");
+
+  try {
+    if (authMode === "register") {
+      const name = document.getElementById("authName").value.trim();
+      if (!name) {
+        message.textContent = "Please enter your full name.";
+        return;
+      }
+
+      authFlowInProgress = true;
+      const credential = await carePointAuth.createUserWithEmailAndPassword(email, password);
+      await carePointDb.collection("users").doc(credential.user.uid).set({
+        id: credential.user.uid,
+        name,
+        email,
+        role: "patient",
+        specialty: "",
+        createdAt: new Date().toISOString()
+      });
+      authFlowInProgress = false;
+      await loadFirebaseSession(credential.user);
+      toast("Your patient account was created.");
+      return;
+    }
+
+    await carePointAuth.signInWithEmailAndPassword(email, password);
+  } catch (error) {
+    authFlowInProgress = false;
+    console.error("Firebase sign-in or registration failed:", error);
+    if (carePointAuth.currentUser && !activeFirebaseUid) {
+      try {
+        await carePointAuth.signOut();
+      } catch (signOutError) {
+        console.error("Could not sign out after failed profile setup:", signOutError);
+      }
+    }
+    message.textContent = firebaseErrorMessage(error);
+    message.classList.add("notice", "danger-note");
+  }
+};
+
+logout = async function() {
+  try {
+    await carePointAuth.signOut();
+  } catch (error) {
+    console.error("Firebase sign-out failed:", error);
+    toast(firebaseErrorMessage(error));
+  }
+};
+
+adminAddUser = async function(event) {
+  event.preventDefault();
+  const name = document.getElementById("newName").value.trim();
+  const email = document.getElementById("newEmail").value.trim().toLowerCase();
+  const password = document.getElementById("newPassword").value;
+  const role = document.getElementById("newRole").value;
+  const specialty = role === "doctor" ? document.getElementById("newSpecialty").value : "";
+  let secondaryApp;
+
+  try {
+    try {
+      secondaryApp = firebase.initializeApp(carePointFirebaseConfig, "CarePointAccountCreation");
+    } catch (error) {
+      if (error.code !== "app/duplicate-app") throw error;
+      secondaryApp = firebase.app("CarePointAccountCreation");
+    }
+  } catch (error) {
+    console.error("Could not initialize Firebase account creation:", error);
+    toast(firebaseErrorMessage(error));
+    return;
+  }
+
+  const secondaryAuth = secondaryApp.auth();
+  const secondaryDb = firebase.firestore(secondaryApp);
+  let newFirebaseUser = null;
+  try {
+    const credential = await secondaryAuth.createUserWithEmailAndPassword(email, password);
+    newFirebaseUser = credential.user;
+    await secondaryDb.collection("users").doc(newFirebaseUser.uid).set({
+      id: newFirebaseUser.uid,
+      name,
+      email,
+      role: "patient",
+      specialty: "",
+      createdAt: new Date().toISOString()
+    });
+    await secondaryAuth.signOut();
+
+    if (role !== "patient") {
+      await carePointDb.collection("users").doc(newFirebaseUser.uid).update({ role, specialty });
+    }
+    document.getElementById("newName").closest("form")?.reset();
+    toast("User account created.");
+    renderUsers();
+  } catch (error) {
+    if (secondaryAuth.currentUser) {
+      try {
+        await secondaryAuth.signOut();
+      } catch (signOutError) {
+        console.error("Could not close the temporary account session:", signOutError);
+      }
+    }
+    console.error("Firebase account creation failed:", error);
+    toast(newFirebaseUser
+      ? `The account was created as a patient, but role setup failed: ${firebaseErrorMessage(error)}`
+      : firebaseErrorMessage(error));
+  }
+};
+
+saveUserRole = async function(userId) {
+  const user = users.find(item => item.id === userId);
+  if (!user || userId === currentUser.id && currentUser.role !== "admin") return;
+  const role = document.getElementById(`role-${userId}`).value;
+  const specialtySelect = document.getElementById(`spec-${userId}`);
+  if (role === "doctor" && !specialtySelect) {
+    toast("Select a specialty for the doctor.");
+    return;
+  }
+  if (user.role === "doctor" && role !== "doctor" &&
+      appointments.some(appointment => appointment.doctorId === userId &&
+        appointment.status === "Confirmed" && appointment.date >= today()) &&
+      !confirm("This doctor has upcoming confirmed appointments. Continue changing the role?")) {
+    return;
+  }
+
+  try {
+    await carePointDb.collection("users").doc(userId).update({
+      role,
+      specialty: role === "doctor" ? specialtySelect.value : ""
+    });
+    toast("Role and specialty saved.");
+  } catch (error) {
+    console.error("Could not update Firebase user role:", error);
+    toast(firebaseErrorMessage(error));
+  }
+};
+
+deleteUser = async function(userId) {
+  const user = users.find(item => item.id === userId);
+  if (!user || userId === currentUser.id) return;
+  if (!confirm(`Delete ${user.name}'s CarePoint profile? Their Firebase Authentication account must also be removed from the Firebase console.`)) return;
+
+  try {
+    await carePointDb.collection("users").doc(userId).delete();
+    toast("CarePoint profile deleted. Remove the sign-in account separately in Firebase Authentication.");
+  } catch (error) {
+    console.error("Could not delete Firebase user profile:", error);
+    toast(firebaseErrorMessage(error));
+  }
+};
+
+saveProfile = async function(event) {
+  event.preventDefault();
+  const name = document.getElementById("profileName").value.trim();
+  const email = document.getElementById("profileEmail").value.trim().toLowerCase();
+  const firebaseUser = carePointAuth.currentUser;
+
+  try {
+    if (email !== firebaseUser.email) {
+      const password = prompt("Enter your current password to confirm the email change:");
+      if (password === null) return;
+      const credential = firebase.auth.EmailAuthProvider.credential(firebaseUser.email, password);
+      await firebaseUser.reauthenticateWithCredential(credential);
+      await firebaseUser.updateEmail(email);
+    }
+    await carePointDb.collection("users").doc(firebaseUser.uid).update({
+      name,
+      email,
+      updatedAt: new Date().toISOString()
+    });
+    currentUser = { ...currentUser, name, email };
+    document.getElementById("topUser").textContent = `${name} · ${roleName(currentUser.role)}`;
+    document.getElementById("welcomeTitle").textContent = `Hello, ${name.split(" ")[0]}.`;
+    toast("Profile updated.");
+    renderApp();
+  } catch (error) {
+    console.error("Could not update Firebase profile:", error);
+    toast(firebaseErrorMessage(error));
+  }
+};
+
+createAppointment = async function(event) {
+  event.preventDefault();
+  const doctorId = document.getElementById("bookDoctor").value;
+  const date = document.getElementById("bookDate").value;
+  const time = document.getElementById("bookTime").value;
+  const durationMinutes = Number(document.getElementById("bookDuration")?.value || 30);
+  const reason = document.getElementById("bookReason").value;
+  const notes = document.getElementById("bookNotes").value.trim();
+  const doctor = users.find(user => user.id === doctorId);
+  if (!doctor) return toast("Please select a valid doctor.");
+  if (date < today()) return toast("Please choose today or a future date.");
+  if (date === today() && time <= `${String(new Date().getHours()).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}`) {
+    return toast("Please choose a future time.");
+  }
+  const conflict = bookingConflict(doctorId, currentUser.id, date, time, durationMinutes);
+  if (conflict) return toast(conflict === "patient"
+    ? "You already have an appointment that overlaps this time."
+    : "That time overlaps another appointment with this doctor.");
+
+  const appointment = {
+    id: id(),
+    patientId: currentUser.id,
+    doctorId,
+    patientName: currentUser.name,
+    doctorName: doctor.name,
+    date,
+    time,
+    durationMinutes,
+    reason,
+    notes,
+    status: "Confirmed",
+    createdAt: new Date().toISOString(),
+    reminderPatientSent: false,
+    reminderDoctorSent: false
+  };
+  try {
+    await carePointDb.collection("appointments").doc(appointment.id).set(appointment);
+    toast("Appointment booked successfully.");
+    go("appointments");
+  } catch (error) {
+    console.error("Could not save Firebase appointment:", error);
+    toast(firebaseErrorMessage(error));
+  }
+};
+
+cancelAppointment = async function(appointmentId) {
+  const appointment = appointments.find(item => item.id === appointmentId);
+  if (!appointment || !confirm("Cancel this appointment?")) return;
+  try {
+    await carePointDb.collection("appointments").doc(appointmentId).update({ status: "Cancelled" });
+    toast("Appointment cancelled.");
+  } catch (error) {
+    console.error("Could not cancel Firebase appointment:", error);
+    toast(firebaseErrorMessage(error));
+  }
+};
+
+reschedule = async function(appointmentId) {
+  const appointment = appointments.find(item => item.id === appointmentId);
+  if (!appointment) return;
+  const date = prompt("Enter new date (YYYY-MM-DD):", appointment.date);
+  if (date === null) return;
+  const time = prompt("Enter new time (HH:MM, 24-hour format):", appointment.time);
+  if (time === null) return;
+  const durationMinutes = appointmentDuration(appointment);
+  const start = timeInMinutes(time);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || date < today() || start === null ||
+      !BOOKING_TIMES.includes(time) || start + durationMinutes > 16 * 60) {
+    return toast("Enter a valid future date and time within the available clinic hours.");
+  }
+  if (date === today() && time <= `${String(new Date().getHours()).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}`) {
+    return toast("Choose a future time.");
+  }
+  const conflict = bookingConflict(appointment.doctorId, appointment.patientId, date, time, durationMinutes, appointmentId);
+  if (conflict) return toast(conflict === "patient"
+    ? "The patient already has an appointment that overlaps this time."
+    : "That time overlaps another appointment with this doctor.");
+  try {
+    await carePointDb.collection("appointments").doc(appointmentId).update({
+      date,
+      time,
+      durationMinutes,
+      reminderPatientSent: false,
+      reminderDoctorSent: false
+    });
+    toast("Appointment rescheduled.");
+  } catch (error) {
+    console.error("Could not reschedule Firebase appointment:", error);
+    toast(firebaseErrorMessage(error));
+  }
+};
+
+changeStatus = async function(appointmentId, status) {
+  try {
+    await carePointDb.collection("appointments").doc(appointmentId).update({ status });
+    toast("Appointment status updated.");
+  } catch (error) {
+    console.error("Could not update Firebase appointment status:", error);
+    toast(firebaseErrorMessage(error));
+  }
+};
+
+adminStatus = async function(appointmentId) {
+  const appointment = appointments.find(item => item.id === appointmentId);
+  if (!appointment) return;
+  const next = prompt("Enter status: Confirmed, Completed, or Cancelled", appointment.status);
+  if (!next) return;
+  const status = ["Confirmed", "Completed", "Cancelled"].find(value =>
+    value.toLowerCase() === next.trim().toLowerCase());
+  if (!status) return toast("Please enter Confirmed, Completed, or Cancelled.");
+  try {
+    await carePointDb.collection("appointments").doc(appointmentId).update({ status });
+    toast("Appointment status updated.");
+  } catch (error) {
+    console.error("Could not update Firebase appointment status:", error);
+    toast(firebaseErrorMessage(error));
+  }
+};
+
+try {
+  if (!window.firebase) throw new Error("Firebase SDK could not be loaded. Check your internet connection and reload.");
+  const carePointApp = firebase.initializeApp(carePointFirebaseConfig);
+  carePointAuth = carePointApp.auth();
+  carePointDb = carePointApp.firestore();
+  carePointAuth.onAuthStateChanged(async firebaseUser => {
+    if (authFlowInProgress) return;
+    if (!firebaseUser) {
+      activeFirebaseUid = "";
+      stopFirebaseListeners();
+      users = [];
+      appointments = [];
+      appointmentDisplayUsers = [];
+      currentUser = null;
+      document.getElementById("appView").classList.add("hidden");
+      document.getElementById("authView").classList.remove("hidden");
+      document.getElementById("logoutBtn").classList.add("hidden");
+      document.getElementById("topUser").textContent = "A simpler way to manage appointments";
+      return;
+    }
+    if (activeFirebaseUid === firebaseUser.uid) return;
+    try {
+      await loadFirebaseSession(firebaseUser);
+    } catch (error) {
+      activeFirebaseUid = "";
+      console.error("Could not load the Firebase CarePoint profile:", error);
+      showFirebaseError(firebaseErrorMessage(error));
+      try {
+        await carePointAuth.signOut();
+      } catch (signOutError) {
+        console.error("Could not sign out after profile loading failed:", signOutError);
+      }
+    }
+  });
+} catch (error) {
+  console.error("Firebase initialization failed:", error);
+  showFirebaseError(firebaseErrorMessage(error));
+}
+
+// Keep demo time slots in the future on the current date where possible.
+setAuthMode("login");
+</script>
+</body>
+</html>
